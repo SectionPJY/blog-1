@@ -1,7 +1,6 @@
 # BLOG
-<p>
-  <h2>계획</h2>
-  <h3>언어<h3>
+<p class="lh-condensed-ultra">
+  <h3>언어</h3>
   <ol>
     <li>프론트엔드 : html, css, javascript</li>
     <li>백엔드 : Node Express</li>
@@ -13,14 +12,38 @@
     <li>로그인</li>
     <li>회원가입</li>
     <li>
-      게시글
+      게시글 
       <ul>
-        <li>추가</li>
-        <li>수정</li>
-        <li>삭제</li>
-        <li>나열</li>
+        <li>
+          게시글 추가 <br />
+          -> 글 추가하기 <br />
+          -> 이미지 추가하기 <br />
+          -> 동영상 추가하기 <br />
+        </li>
+        <li>
+          게시글 수정
+        </li>
+        <li>
+          게시글 삭제
+        </li>
+        <li>
+          게시글 나열
+        </li>
+      </ul>
+    </li>
+    <li>
+      프로필
+      <ul>
+        <li>
+          프로필 이미지 
+        </li>
+        <li>
+          자기소개
+        </li>
+        <li>
+          SNS 연동
+        </li>
       </ul>
     </li>
   </ol>
-  <p>반응형 웹 페이지로 만들 계획이며, 모바일을 기준으로 해서 사이트를 만들어 나갈 생각입니다.</p>
 </p>
