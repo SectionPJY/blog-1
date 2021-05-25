@@ -1,44 +1,13 @@
 import React from 'react';
 import Responsive from './common/Responsive';
+import {Logo, Input, Button} from './common/Form';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const Wrapper = styled(Responsive)`
-    .login {
-        border: 1px solid black;
-    }
-`
-
-const Logo = styled.div`
-    color : #4EE1D7;
-    height: 200px;
-    font-family: 'KoHo', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 6rem;
-`
-
-const LoginForm = styled.form`
-    text-align: center;
-    div {
-        width: 80%;
-        margin: 0.5rem auto;
-    }
-    button {
-        width: 80%;
-        border: none;
-        margin : 0 auto;
-        color: white;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #4EE1D7;
-    }
-    input {
-        width: 100%;
-        height: 3rem;
-        box-sizing: border-box;
+    width: 320px;
+    form {
+        text-align : center;
     }
 `
 
@@ -48,17 +17,21 @@ const Login = () => {
             <Logo>
                 Blog
             </Logo>
-            <LoginForm onSubmit={() => {alert(1)}}>
+            <form className='form' onSubmit={() => {alert(1)}}>
                 <div>
-                    <input type="text" placeholder="아이디" />
+                    <Input type="text" placeholder="아이디" />
                 </div>
                 <div>
-                    <input type="password" placeholder="비밀번호" />
+                    <Input type="password" placeholder="비밀번호" />
                 </div>
-                <button>
+                <Button>
                     로그인
-                </button>
-            </LoginForm>
+                </Button>
+            </form>
+            <div style={{"textAlign" : "right"}}>
+                <Link to="/find"><strong>아이디/비밀번호 찾기 </strong></Link>
+                <Link to="/register"><strong>회원가입</strong></Link>
+            </div>
         </Wrapper>
     );
 }
