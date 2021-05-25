@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Responsive from './common/Responsive';
 import {GrInstagram, GrFacebook} from 'react-icons/gr';
@@ -21,6 +21,7 @@ const Left = styled.div`
     position: relative;
     font-size: 3rem;
     padding-bottom: 1rem;
+    font-family: 'KoHo', sans-serif;
 `
 
 const Middle = styled.div`
@@ -64,12 +65,16 @@ const Header = ({match, location, history}) => {
                 </span>
             </Middle>
             <Right>
-                <span>로그인</span>
-                <span>회원가입</span>
+                <span>
+                    <Link to="/login">로그인</Link>
+                </span>
+                <span>
+                    <Link to="/register">회원가입</Link>
+                </span>
                 <span>메뉴</span>
             </Right>
         </Wrapper>
     )
 }
 
-export default withRouter(Header);
+export default Header;
