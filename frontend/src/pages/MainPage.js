@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header';
+import HeaderContainer from '../containers/HeaderContainer';
 import Responsive from '../components/common/Responsive';
 
 const Wrapper = styled(Responsive)`
-    width: 100%;
+    
 `
 
-const MainPage = () => {
+const MainPage = () => {    
     return (
         <Wrapper>
-           <Header />
+           <HeaderContainer />
         </Wrapper>
     )
 }
