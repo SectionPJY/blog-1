@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Register from '../components/Register';
+import RegisterContainer from '../containers/auth/RegisterContainer';
 
 const Wrapper = styled.div`
 
@@ -8,9 +8,9 @@ const Wrapper = styled.div`
 
 const RegisterPage = () => {
     return (
-        <div>
-            <Register/>
-        </div>
+        <Wrapper>
+            <RegisterContainer/>
+        </Wrapper>
     )
 }
 

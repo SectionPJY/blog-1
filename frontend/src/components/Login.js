@@ -6,30 +6,35 @@ import {Link} from 'react-router-dom';
 
 const Wrapper = styled(Responsive)`
     width: 320px;
-    form {
-        text-align : center;
-    }
+    font-family: 'Cute Font', cursive;
+    font-size: 1.5rem;
 `
 
-const Login = () => {
+const Login = ({username, password, onChange, onSubmit}) => {
+    
     return (
         <Wrapper>
             <Logo>
                 Blog
             </Logo>
-            <form className='form' onSubmit={() => {alert(1)}}>
+            <form onSubmit={onSubmit}>
                 <div>
-                    <Input type="text" placeholder="아이디" />
+                    <Input type="text" placeholder="아이디" 
+                        name="username" value={username}
+                        onChange={onChange}/>
                 </div>
                 <div>
-                    <Input type="password" placeholder="비밀번호" />
+                    <Input type="password" placeholder="비밀번호" 
+                        name="password" value={password} 
+                        onChange={onChange}/>
                 </div>
                 <Button>
                     로그인
                 </Button>
             </form>
             <div style={{"textAlign" : "right"}}>
-                <Link to="/find"><strong>아이디/비밀번호 찾기 </strong></Link>
+                <Link to="/find"><strong>아이디/비밀번호 찾기</strong></Link>
+                <strong> | </strong>
                 <Link to="/register"><strong>회원가입</strong></Link>
             </div>
         </Wrapper>
