@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../modules/user';
-import Header from '../components/Header';
-import Menu from '../components/Menu';
+import {logout} from '../../modules/user';
+import Header from '../../components/common/Header';
+import Menu from '../../components/common/Menu';
 
 const HeaderContainer = () => {
     const [menu, setMenu] = useState(false);

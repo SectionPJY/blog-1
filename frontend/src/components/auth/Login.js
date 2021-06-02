@@ -1,6 +1,6 @@
 import React from 'react';
-import Responsive from './common/Responsive';
-import {Logo, Input, Button} from './common/Form';
+import Responsive from '../common/Responsive';
+import {Logo, Input, Button} from '../common/Form';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 

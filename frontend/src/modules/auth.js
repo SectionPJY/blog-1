@@ -28,7 +28,7 @@ export const login = createAction(
 
 export const register = createAction(
     REGISTER,
-    ({username, password}) => ({username,password})
+    ({username, password, tel, gender, birth}) => ({username, password, tel, gender, birth})
 );
 
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
@@ -47,6 +47,9 @@ const initialState = {
         username : '',
         password : '',
         passwordCheck : '',
+        tel : '',
+        gender : 'male',
+        birth : '',
     },
     auth: null,
     authError: null,
