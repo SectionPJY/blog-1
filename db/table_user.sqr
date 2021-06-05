@@ -1,0 +1,8 @@
+create table user(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name varchar(5) NOT NULL,
+	password varchar(129) NOT NULL,
+	gender varchar(20) NOT NULL,
+	phonenumber varchar(20) NOT NULL,
+	birth date
+);

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Login from '../../components/Login';
+import Login from '../../components/auth/Login';
 import { withRouter } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';

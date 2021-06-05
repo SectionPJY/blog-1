@@ -2,19 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import Responsive from '../components/common/Responsive';
-import PostListContainer from '../containers/PostListContainer';
+import EditContainer from '../containers/EditContainer';
 
 const Wrapper = styled(Responsive)`
     
 `
 
-const MainPage = () => {    
+const EditPage = () => {    
     return (
         <Wrapper>
            <HeaderContainer />
-           <PostListContainer />
+           <EditContainer />
         </Wrapper>
     )
 }
 
-export default MainPage;
+export default EditPage;

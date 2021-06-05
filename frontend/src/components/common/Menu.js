@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import Responsive from './common/Responsive';
+import Responsive from './Responsive';
 import {Link} from 'react-router-dom';
 
 const Wrapper = styled(Responsive)`
     display: flex;
     height: 1000px;
     font-family: 'KoHo', sans-serif;
+    border-top: 1px solid #DCDCDC;
 `
 const Left = styled.div`
     width: 20%;
+    height: 100%;
     background-color: rgba(211,211,211,.5);
 `
 
@@ -33,7 +35,7 @@ const Menu = () => {
     const [web, setWeb] = useState(false);
     const [database, setDatabase] = useState(false);
     const [os, setOs] = useState(false);
-``
+
     return (
         <Wrapper>
             <Left />

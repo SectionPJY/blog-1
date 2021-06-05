@@ -5,7 +5,7 @@ export const login = ({username, password}) => client.post(
     {username, password},
 )
 
-export const register = ({username, password}) => client.post(
+export const register = ({username, password, passwordCheck, tel, gender, birth}) => client.post(
     '/api/auth/register',
     {username, password}
 )

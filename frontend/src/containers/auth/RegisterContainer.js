@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Register from '../../components/Register';
+import Register from '../../components/auth/Register';
 import { withRouter } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { check } from '../../modules/user';
@@ -42,8 +42,10 @@ const RegisterContainer = ({history}) => {
             return;
         }
 
-        const { username, password } = form;
-        dispatch(register({username, password}));
+        const { username, password, tel, gender, birth } = form;
+        console.log(username, password, tel, gender, birth)
+        dispatch(register({username, password, tel, gender, birth}));
+        
     }
 
     useEffect(() => {
@@ -72,7 +74,10 @@ const RegisterContainer = ({history}) => {
         <Register
             username={form.username}
             password={form.password}
-            passwordCheck={form.passwordCheck} 
+            passwordCheck={form.passwordCheck}
+            tel={form.tel}
+            gender={form.gender}
+            birth={form.birth} 
             onChange={onChange}
             onSubmit={onSubmit}
         />

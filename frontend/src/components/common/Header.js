@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Responsive from './common/Responsive';
+import Responsive from './Responsive';
 import {GrInstagram, GrFacebook} from 'react-icons/gr';
 import {RiKakaoTalkFill} from 'react-icons/ri';
 
 const Wrapper = styled(Responsive)`
     width: 100%;
     height: 130px;
-    border-bottom: 1px solid gray;
+    box-shadow: 0 4px 2px -2px gray;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 1rem;
 `;
 
 const Left = styled.div`
