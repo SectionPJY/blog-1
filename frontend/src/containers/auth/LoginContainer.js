@@ -6,9 +6,8 @@ import { changeField, initializeForm, login } from '../../modules/auth';
 import { check } from '../../modules/user';
 const LoginContainer = ({history}) => {
     const dispatch = useDispatch();
-    const { form, auth, authError, user} = useSelector( ({auth, user}) => ({
+    const { form, authError, user} = useSelector( ({auth, user}) => ({
         form: auth.login,
-        auth: auth.auth,
         authError: auth.authError,
         user: user.user,
     }));
@@ -26,8 +25,17 @@ const LoginContainer = ({history}) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        const { username, password } = form;
-        dispatch(login({username, password}));
+        const { id, password } = form;
+
+        if(id === '' && password === '') {
+            return alert('아이디와 비밀번호를 입력해주세요.');
+        }
+
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('password', password);
+
+        dispatch(login(formData));
     }
 
     useEffect(() => {
@@ -36,14 +44,14 @@ const LoginContainer = ({history}) => {
 
     // 로그인이 성공하였는가? 실패하였는가?
     useEffect(() => {
-        if(auth != null) {
-            dispatch(check());
-        } 
         if(authError != null) {
-            auth('로그인을 실패하였습니다.');
+            alert('로그인을 실패하였습니다.');
             dispatch(initializeForm('Login'));
+        } else {
+            alert('로그인을 성공하였습니다.');
+            dispatch(check());
         }
-    }, [auth, authError, dispatch])
+    }, [authError, dispatch])
 
     // jwt를 가져서 통신할 때 사용할 수 있는가?
     useEffect(() => {
@@ -59,7 +67,7 @@ const LoginContainer = ({history}) => {
 
     return (
         <Login
-            username={form.username}
+            id={form.id}
             password={form.password}
             onChange={onChange}
             onSubmit={onSubmit}

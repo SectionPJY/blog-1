@@ -11,7 +11,7 @@ const Wrapper = styled(Responsive)`
     text-align: center;
 `
 
-const Register = ({username, password, passwordCheck, tel, gender, birth, onChange, onSubmit}) => {
+const Register = ({id, password, passwordCheck, tel, gender, birth, onChange, onSubmit}) => {
     return (
         <Wrapper>
             <Logo>
@@ -19,7 +19,7 @@ const Register = ({username, password, passwordCheck, tel, gender, birth, onChan
             </Logo>
             <form onSubmit={onSubmit}>
                 <Input type="text" placeholder="아이디를 입력해주세요." 
-                    name="username" value={username}
+                    name="id" value={id}
                     onChange={onChange} required/>
                 <Input type="password" placeholder="비밀번호를 입력해주세요." 
                     name="password" value={password}

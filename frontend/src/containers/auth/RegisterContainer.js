@@ -42,9 +42,9 @@ const RegisterContainer = ({history}) => {
             return;
         }
 
-        const { username, password, tel, gender, birth } = form;
-        console.log(username, password, tel, gender, birth)
-        dispatch(register({username, password, tel, gender, birth}));
+        const { id, password, tel, gender, birth } = form;
+        console.log(id, password, tel, gender, birth)
+        dispatch(register({id, password, tel, gender, birth}));
         
     }
 
@@ -72,7 +72,7 @@ const RegisterContainer = ({history}) => {
 
     return (
         <Register
-            username={form.username}
+            id={form.id}
             password={form.password}
             passwordCheck={form.passwordCheck}
             tel={form.tel}

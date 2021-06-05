@@ -1,13 +1,19 @@
 import client from './client';
 
-export const login = ({username, password}) => client.post(
-    '/api/auth/login',
-    {username, password},
+export const login = (formData) => client.post(
+    '/login.php',
+    formData,
+    {
+        headers : {
+            'Content-type' : 'multipart/form-data',
+            'charset' : 'utf-8'
+        }
+    }
 )
 
-export const register = ({username, password, passwordCheck, tel, gender, birth}) => client.post(
-    '/api/auth/register',
-    {username, password}
+export const register = ({id, password, passwordCheck, tel, gender, birth}) => client.get(
+    '/register',
+    {id, password, passwordCheck, tel, gender, birth}
 )
 
 export const check = () => client.get(

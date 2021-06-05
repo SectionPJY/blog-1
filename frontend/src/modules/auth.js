@@ -23,12 +23,12 @@ export const initializeForm = createAction(
 
 export const login = createAction(
     LOGIN,
-    ({username, password}) => ({username, password})
+    (formData) => (formData)
 )
 
 export const register = createAction(
     REGISTER,
-    ({username, password, tel, gender, birth}) => ({username, password, tel, gender, birth})
+    ({id, password, tel, gender, birth}) => ({id, password, tel, gender, birth})
 );
 
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
@@ -40,18 +40,17 @@ export function* authSaga() {
 
 const initialState = {
     login : {
-        username : '',
+        id : '',
         password : '',
     },
     register : {
-        username : '',
+        id : '',
         password : '',
         passwordCheck : '',
         tel : '',
         gender : 'male',
         birth : '',
     },
-    auth: null,
     authError: null,
 };
 
@@ -65,25 +64,21 @@ const auth = handleActions(
             [form]: initialState[form],
             authError: null,
         }),
-        [LOGIN_SUCCESS]: (state, {payload: auth}) => ({
+        [LOGIN_SUCCESS]: (state, payload) => ({
             ...state,
             authError: null,
-            auth
         }),
         [LOGIN_FAILURE] : (state, {payload: error}) => ({
             ...state,
             authError: error,
-            auth : null,
         }),
-        [REGISTER_SUCCESS] : (state, {payload: auth}) => ({
+        [REGISTER_SUCCESS] : (state, payload) => ({
             ...state,
             authError: null,
-            auth
         }),
         [REGISTER_FAILURE] : (state, {payload: error}) => ({
             ...state,
             authError: error,
-            auth: null,
         }),
     },
     initialState,
