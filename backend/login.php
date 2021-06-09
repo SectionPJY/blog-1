@@ -2,17 +2,9 @@
 
 	session_start();
 
-	$conn = mysqli_connect("localhost", "root", "---------", "blog");	/* MySQL PHP 연동 */
+	$conn = mysqli_connect("localhost", "root", "928oskawk#A" "blog");	/* MySQL PHP 연동 */
 	$conn->set_charset("utf8");
 
-	function mq($sql) {
-		global $conn;
-		return $conn->query($sql);
-	}
-?>
-
-
-<?php
 	$id =  $_GET['id'];
 	$password =  $_GET['password'];
 

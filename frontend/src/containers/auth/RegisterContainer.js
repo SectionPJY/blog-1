@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Register from '../../components/auth/Register';
 import { withRouter } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { check } from '../../modules/user';
 import { changeField, initializeForm, register } from '../../modules/auth';
 
 const RegisterContainer = ({history}) => {
@@ -42,33 +41,29 @@ const RegisterContainer = ({history}) => {
             return;
         }
 
-        const { id, password, tel, gender, birth } = form;
-        console.log(id, password, tel, gender, birth)
+        const { id, password, passwordCheck, name, tel, gender, birth } = form;
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('password', password);
+        formData.append('passwordCheck', passwordCheck);
+        formData.append('name', name);
+        formData.append('tel', tel);
+        formData.append('gender', gender);
+        formData.append('birth');
         dispatch(register({id, password, tel, gender, birth}));
         
     }
 
     useEffect(() => {
-        if(auth != null) {
-            localStorage.setItem('user', user)
-            dispatch(check());
+        if(authError == null) {
+            alert('회원가입되셨습니다.');
+            history.push('/');
         } 
-        if(authError != null) {
+        else {
             alert('Register Failure');
             dispatch(initializeForm('register'));
         }
     }, [auth, authError, dispatch, history, user])
-
-    useEffect(() => {
-        if (user) {
-            try {
-                localStorage.setItem('user', JSON.stringify(user));
-                history.push('/');
-            } catch (e) {
-                console.log('localStroage is not working');
-            }
-        }
-    }, [history, user])
 
     return (
         <Register

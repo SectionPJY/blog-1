@@ -16,15 +16,6 @@ export const register = ({id, password, passwordCheck, tel, gender, birth}) => c
     {id, password, passwordCheck, tel, gender, birth}
 )
 
-export const check = () => client.get(
-    '/api/auth/check',
-    {
-        headers: {
-            'token' : localStorage.getItem('user')
-        }
-    }
-)
-
 export const logout = () => client.get(
     '/api/auth/logout'
 )

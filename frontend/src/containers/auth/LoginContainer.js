@@ -1,15 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Login from '../../components/auth/Login';
 import { withRouter } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { changeField, initializeForm, login } from '../../modules/auth';
-import { check } from '../../modules/user';
 const LoginContainer = ({history}) => {
+    const [isClicked, setIsClicked] = useState(false);
     const dispatch = useDispatch();
-    const { form, authError, user} = useSelector( ({auth, user}) => ({
+    const { form, authError} = useSelector( ({auth}) => ({
         form: auth.login,
         authError: auth.authError,
-        user: user.user,
     }));
 
     const onChange = e => {
@@ -36,6 +35,7 @@ const LoginContainer = ({history}) => {
         formData.append('password', password);
 
         dispatch(login(formData));
+        setIsClicked(true);
     }
 
     useEffect(() => {
@@ -44,26 +44,17 @@ const LoginContainer = ({history}) => {
 
     // 로그인이 성공하였는가? 실패하였는가?
     useEffect(() => {
-        if(authError != null) {
-            alert('로그인을 실패하였습니다.');
-            dispatch(initializeForm('Login'));
-        } else {
-            alert('로그인을 성공하였습니다.');
-            dispatch(check());
-        }
-    }, [authError, dispatch])
-
-    // jwt를 가져서 통신할 때 사용할 수 있는가?
-    useEffect(() => {
-        if (user) {
-            try {
-                localStorage.setItem('user', JSON.stringify(user));
+        // 처음상태일때 로그인 알람을 무시한다.
+        if(isClicked === true) {
+            if(authError.message === 'Request failed with status code 401') {
+                alert('로그인을 실패하였습니다.');
+                dispatch(initializeForm('Login'));
+            } else {
+                alert('로그인을 성공하였습니다.');
                 history.push('/');
-            } catch (e) {
-                console.log('localStroage is not working');
             }
         }
-    }, [history, user])
+    }, [authError, dispatch, history, isClicked])
 
     return (
         <Login
