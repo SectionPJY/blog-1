@@ -176,7 +176,6 @@ const PostWrite = () => {
         });
     }
 
-
     const loadImage = (e) => {
         for(let image of e.target.files) {
             let imageURL = URL.createObjectURL(image);
