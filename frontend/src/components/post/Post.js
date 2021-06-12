@@ -1,5 +1,5 @@
 import React from 'react';
-import Responsive from './common/Responsive';
+import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
@@ -44,7 +44,7 @@ const Post = ({post}) => {
             <Link to={"/post/"+post.id}>
                 <Header>
                     <div className='left'>
-                        {post.id}. {post.title}
+                         {post.title}
                     </div>
                     <div className='right'>
                         글쓴이 : {post.name} <br /> 

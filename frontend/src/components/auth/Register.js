@@ -11,7 +11,15 @@ const Wrapper = styled(Responsive)`
     text-align: center;
 `
 
-const Register = ({id, password, passwordCheck, tel, gender, birth, onChange, onSubmit}) => {
+const Error = styled.div`
+    font-size: 1rem;
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+`
+
+const Register = ({id, password, passwordCheck, error, name, tel, gender, birth, onChange, onSubmit}) => {
     return (
         <Wrapper>
             <Logo>
@@ -27,6 +35,9 @@ const Register = ({id, password, passwordCheck, tel, gender, birth, onChange, on
                 <Input type="password" placeholder="비밀번호를 다시 입력해주세요." 
                     name="passwordCheck" value={passwordCheck}
                     onChange={onChange} required/>
+                <Input type="text" placeholder="이름을 입력해주세요" 
+                    name="name" value={name}
+                    onChange={onChange} required/>
                 <Input type="tel" placeholder="핸드폰 번호를 입력해주세요." 
                     name="tel" value={tel}
                     onChange={onChange} required/>
@@ -38,6 +49,7 @@ const Register = ({id, password, passwordCheck, tel, gender, birth, onChange, on
                 <Input type="date"  
                     name="birth" value={birth}
                     onChange={onChange} required/>
+                <Error>{error}</Error>
                 <Button>회원가입</Button>
             </form>
             <div style={{"textAlign" : "right"}}>

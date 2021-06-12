@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Responsive from '../common/Responsive';
 import {Logo, Input, Button} from '../common/Form';
 import styled from 'styled-components';
@@ -10,7 +10,15 @@ const Wrapper = styled(Responsive)`
     font-size: 1.5rem;
 `
 
-const Login = ({id, password, onChange, onSubmit}) => {
+const Error = styled.div`
+    font-size: 1rem;
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+`
+
+const Login = ({id, password, error, onChange, onSubmit}) => {
     return (
         <Wrapper>
             <Logo>
@@ -27,6 +35,7 @@ const Login = ({id, password, onChange, onSubmit}) => {
                         name="password" value={password} 
                         onChange={onChange} required/>
                 </div>
+                <Error>{error}</Error>
                 <Button>
                     로그인
                 </Button>

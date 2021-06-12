@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Responsive from './Responsive';
@@ -81,7 +81,12 @@ const Username = styled.div`
     cursor : pointer;
 `
 
-const Header = ({username, profile, setProfile, toggleMenu, logout}) => {    
+const Header = ({id, username, toggleMenu, logout}) => {
+    const [profile, showProfile] = useState(false);
+    const ToggleProfile = useCallback(() => {
+        showProfile(!profile);
+    }, [profile]);
+
     return (
         <Wrapper>
             <Left>
@@ -107,13 +112,13 @@ const Header = ({username, profile, setProfile, toggleMenu, logout}) => {
             <Right>
                 {username ? 
                     <ProfileWrapper>
-                        <Username onClick={()=>{setProfile(!profile)}}>
+                        <Username onClick={ToggleProfile}>
                             {username}
                         </Username>
                         {profile && 
                             <ul>
                                 <li>
-                                    <Link to="/myPage">마이페이지</Link>
+                                    <Link to={`/${id}`}>마이페이지</Link>
                                 </li>
                                 <li>
                                     <Link to="manage">관리페이지</Link>

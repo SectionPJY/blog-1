@@ -1,13 +1,13 @@
 import React from 'react';
-import Responsive from './common/Responsive';
-import Post from './Post';
+import Responsive from '../../components/common/Responsive';
+import Post from '../../components/post/Post';
 import styled from 'styled-components';
 
 const Wrapper = styled(Responsive)`
     border-bottom: 1px solid #DADADA;
 `
 
-const PostList = () => {
+const PostListContainer = () => {
     const posts = [
         {
             'id' : 1,
@@ -114,13 +114,14 @@ const PostList = () => {
             'hashTag' : 'a,b,c,d'
         },
     ]
+
     return (
-        <Wrapper>
+        <div>
             {posts.map( (post, index) => (
                     <Post key={index} post={post} />
             ))}
-        </Wrapper>
+        </div>
     )
 }
 
-export default PostList;
+export default PostListContainer;

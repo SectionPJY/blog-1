@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../modules/user';
+import {logout} from '../../modules/auth';
 import Header from '../../components/common/Header';
 import Menu from '../../components/common/Menu';
+import decodeJWT from '../../lib/decodeJWT';
 
 const HeaderContainer = () => {
+    const [id, setId] = useState('');
+    const [username, setUsername] = useState('');
     const [menu, setMenu] = useState(false);
     const [profile, setProfile] = useState(false);
+
     const dispatch = useDispatch();
-    const {user} = useSelector( ({user}) => ({
-            user : user.user
+    const {auth} = useSelector( ({auth}) => ({
+            auth : auth.auth
         })
     )
 
@@ -19,15 +23,32 @@ const HeaderContainer = () => {
             setProfile(!profile);
         }
     }
+
+    const logoutCallback = useCallback(() => {
+        localStorage.removeItem('jwt');
+        dispatch(logout());
+    }, [dispatch])
+
+    useEffect(() => {
+        if(auth === null) {
+            setUsername('');
+        } else {
+            let jwt = JSON.parse(decodeJWT(auth));
+            console.log(auth);
+            let data = jwt['data'];
+            setId(data['id']);
+            setUsername(data['name'])
+        }
+    }, [setUsername, setId, auth])
     
     return (
         <>
             <Header
-                username={user != null ? user.username : null} 
+                id={id}
+                username={username} 
                 toggleMenu={toggleMenu}
-                profile={profile}
-                setProfile={setProfile}
-                logout={() => dispatch(logout())} 
+                showProfile={setProfile}
+                logout={logoutCallback}
             />
             { menu && <Menu /> }
         </>

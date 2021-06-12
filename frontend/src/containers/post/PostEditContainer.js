@@ -1,10 +1,10 @@
 import React from 'react';
-import Edit from '../components/Edit';
+import PostEdit from '../../components/post/PostEdit';
 
 const EditContainer = () => {
     return (
         <div>
-            <Edit />
+            <PostEdit />
         </div>
     )
 }

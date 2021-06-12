@@ -6,8 +6,11 @@ import createRequestSaga, { createRequestActionTypes } from '../lib/createReques
 
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes('auth/LOGIN');
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes('auth/REGISTER');
+const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes('auth/CHECK');
+const LOGOUT = 'auth/LOGOUT';
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
+
 
 export const changeField = createAction(
     CHANGE_FIELD,
@@ -28,14 +31,23 @@ export const login = createAction(
 
 export const register = createAction(
     REGISTER,
-    ({id, password, name, tel, gender, birth}) => ({id, password, name, tel, gender, birth})
+    (formData) => (formData)
 );
+
+export const logout = createAction(LOGOUT);
+
+export const check = createAction(CHECK, (formData) => (formData))
 
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
+const checkSaga = createRequestSaga(CHECK, authAPI.check);
+
 export function* authSaga() {
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(REGISTER, registerSaga);
+    yield takeLatest(LOGOUT, logoutSaga);
+    yield takeLatest(CHECK, checkSaga);
 }
 
 const initialState = {
@@ -53,7 +65,7 @@ const initialState = {
         birth : '',
     },
     auth : null,
-    authError: !null,
+    authError: true,
 };
 
 const auth = handleActions(
@@ -68,7 +80,7 @@ const auth = handleActions(
         [LOGIN_SUCCESS]: (state, {payload : auth}) => ({
             ...state,
             auth,
-            authError: null,
+            authError: null
         }),
         [LOGIN_FAILURE] : (state, {payload: error}) => ({
             ...state,
@@ -85,8 +97,22 @@ const auth = handleActions(
             auth : null,
             authError: error,
         }),
+        [LOGOUT] : (state, payload) => ({
+            ...state,
+            auth: null,
+        }),
+        [CHECK_SUCCESS] : (state, {payload : auth}) => ({
+            ...state,
+            auth,
+        }),
+        [CHECK_FAILURE] : (state, {payload : error}) => ({
+            ...state,
+            auth: null,
+            authError: error,
+        })
     },
     initialState,
 )
 
 export default auth;
+

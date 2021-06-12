@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import Responsive from '../components/common/Responsive';
-import PostListContainer from '../containers/PostListContainer';
+import PostListContainer from '../containers/post/PostListContainer';
 
 const Wrapper = styled(Responsive)`
     

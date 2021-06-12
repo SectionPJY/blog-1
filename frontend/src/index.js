@@ -9,6 +9,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from './modules';
 import createSagaMiddleware from 'redux-saga';
+import {check} from './modules/auth';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -17,6 +18,18 @@ const store = createStore(
 )
 
 sagaMiddleware.run(rootSaga);
+function getUser() {
+  let jwt = localStorage.getItem('jwt');
+  
+  if(jwt) {
+    let formData = new FormData();
+    formData.append('jwt', jwt);
+    
+    store.dispatch(check(formData));
+  }
+}
+
+getUser();
 
 ReactDOM.render(
   <React.StrictMode>
