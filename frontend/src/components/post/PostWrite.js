@@ -40,20 +40,14 @@ const Wrapper = styled.div`
         border: 1px solid #D9D5D4;
         .content {
             cursor: "pointer";
+            padding: 1rem;
             width: 100%;
+            height: 30rem;
+            overflow-y: scroll;
             border: none;
             box-sizing: border-box;
+            font-size: 1.3rem;
             
-            input {
-                width: 100%;
-                border: none;
-                padding: 0.5rem;
-                box-sizing: border-box;
-                font-size: 1rem;
-            }
-            p {
-                padding: 0.5rem;
-            }
             img, video {
                 width: 100%;
             }
@@ -86,63 +80,8 @@ const PostWrite = () => {
     const [italic, setItalic] = useState(false);
     const [paragraph, setParagraph] = useState([]);
 
-    const onChangedInputKeyDown = (e, index) => {
-        let key = e.key;
-        if(key === "Enter") {
-            setParagraph(paragraph.map((p, idx) => ({
-                ...p,
-                change : false,
-            })))
-            inputRef.current.focus();
-        } else if(key === "Backspace") {
-            setParagraph(paragraph.filter((p, idx) => 
-                (p.type !== 'text') ||
-                (p.type === 'text' && p.text.length > 1)
-            ))
-        }
-    }
-
-    const onKeyPress = (e) => {
-        let key = e.key;
-        
-        if(key === "Enter") {
-            setParagraph(paragraph.concat({
-                text: text,
-                change : false,
-                type : 'text',
-            }));
-            setText('');
-            inputRef.current.focus();
-        }
-    }
-
-    const onChangedInputChange = (e, index) => {
-        setParagraph(paragraph.map( (p, idx) => {
-            if(index === idx) {
-                return (
-                    {
-                        text :  e.target.value,
-                        change: p.change,
-                        type : 'text', 
-                    }
-                );
-            } else 
-                return p;
-        }))
-        onSelect(index);
-    }
-
     const onChange = (e) => {
-        setText(e.target.value);
-    }
-
-    const onChangeParagraph = (e, index) => {
-        setParagraph(paragraph.map( (p, idx) => {
-            if(idx === index) p.change = true;
-            return p;
-        }))
-
-        onSelect(e, index);
+        setText(e.key);
     }
 
     const onSelect = (e, index) => {
@@ -186,10 +125,6 @@ const PostWrite = () => {
         }        
     }
 
-    const DoubleClick = (e) => {
-        e.target.parentNode.removeChild(e.target);
-    }
-
     const loadVideo = (e) => {
         for(let video of e.target.files) {
             let videoURL = URL.createObjectURL(video);
@@ -198,11 +133,6 @@ const PostWrite = () => {
                 type : 'video',
             }))
         }
-    }
-
-    const onSubmit = () => {
-        let formData = new FormData();
-        formData.append('data', paragraph);
     }
 
     return (
@@ -222,7 +152,7 @@ const PostWrite = () => {
                 </div>
                 <div className="right">
                     <span>
-                        <label for="image"><BiImageAdd/></label>
+                        <label for="image"><BiImageAdd/></label>rch
                         <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png" multiple 
                             onChange={loadImage}
                         />
@@ -237,38 +167,11 @@ const PostWrite = () => {
                 </div>
             </div>
             <div className="contentWrapper">
-                <div id="content" className="content">
-                    {paragraph.map((p, index) => {
-                        if(p.type === "text") {
-                            return (
-                                p.change ? <input key={index} value={p.text} onKeyDown={(e) => onChangedInputKeyDown(e, index)} 
-                                                    onChange={(e) => onChangedInputChange(e, index)} 
-                                        />
-                                        : <p key={index} onClick={(event) => onChangeParagraph(event, index)}
-                                            style={{"textAlign" : style}}
-                                        >
-                                            {p.text}
-                                        </p>
-                            )
-                        }
-                        else if(p.type === "image") {
-                            return (
-                                <img key={index} src={p.src} alt="" onDoubleClick={DoubleClick}/>
-                            )
-                        }
-
-                        else if(p.type === "video") {
-                            return (
-                                <video key={index} src={p.src} alt="" onDoubleClick={DoubleClick} controls />
-                            )
-                        }
-                    })}
-                    <input value={text} onKeyPress={onKeyPress} onChange={onChange} ref={inputRef}/>
-                </div>
+                <textarea id="content" value={text} className="content" onChange={onChange} />
             </div>
             <div className="buttonWrapper">
                 <button>취소</button>
-                <button onClick={onSubmit}>완료</button>
+                <button>완료</button>
             </div>
         </Wrapper>
     )
