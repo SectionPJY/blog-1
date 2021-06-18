@@ -1,177 +1,128 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import ReactQuill from 'react-quill';
 import styled from 'styled-components';
-import {BiImageAdd, BiBold, BiItalic, BiVideo, BiAlignLeft, BiAlignRight, BiAlignMiddle} from 'react-icons/bi';
+import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
 
 const Wrapper = styled.div`
-    font-family: 'Noto Sans KR', sans-serif;
-    .titleWrapper {
-        height: 3rem;
-        border: 1px solid #D9D5D4;
-        input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            box-sizing: border-box;
-            font-size: 1.5rem;
-            line-height: 3rem;
-            padding-left: 1rem;
-        }
+    .ql-container {
+        height: 30rem;
     }
 
-    .iconWrapper {
+    .buttons {
         display: flex;
-        justify-content : space-around;
-        font-size: 1.5rem;
-        padding-top: .5rem;
-        padding-bottom: .5rem;
-        border-left: 1px solid #D9D5D4;
-        border-right: 1px solid #D9D5D4;
-        & > div > span {
-            cursor: pointer;
-        }
-        .right{
-            input[type=file] {
-                display: none;
-            }
-        }
-    }
-
-    .contentWrapper {
-        border: 1px solid #D9D5D4;
-        .content {
-            cursor: "pointer";
-            padding: 1rem;
-            width: 100%;
-            height: 30rem;
-            overflow-y: scroll;
-            border: none;
-            box-sizing: border-box;
-            font-size: 1.3rem;
-            
-            img, video {
-                width: 100%;
-            }
-        }
-    }
-
-    .buttonWrapper {
-        float: right;
-        margin-top: .5rem;
+        justify-content: flex-end;
         button {
+            width: 6rem;
+            height: 2rem;
+            line-height: 2rem;
+            margin-left: 1.5rem;
+            background-color: rgba(255,255,255,1);
             border: none;
-            width: 5rem;
-            height: 3rem;
-            color: #8FD3D7;
-            margin-left: 1rem;  
-            font-size: 1.4rem;
-            font-family: 'Cute Font', cursive;
-            box-shadow: 0 -1px 6px -2px gray;  
-            background-color: rgba( 255, 255, 255, 1);
+            box-shadow: 5px 4px 4px -2px gray;
         }
     }
-    
 `
 
+const Title = styled.input`
+    width: 100%;
+    height: 4rem;
+    line-height: 4rem;
+    font-size: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    border: 1px solid #D3D7D7;
+`
+
+
+
 const PostWrite = () => {
-    const inputRef = useRef();
+    const [title, setTitle] = useState('');
     const [text, setText] = useState('');
-    const [style, setStyle] = useState('left');
-    const [bold, setBold] = useState(false);
-    const [italic, setItalic] = useState(false);
-    const [paragraph, setParagraph] = useState([]);
+    const [blobs, setBlobs] = useState([]);
+    const modules = {
+        toolbar : [
+                [{'header' : [1 , 2, false]}],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [
+                    {'list' : 'ordered'},
+                    {'list' : 'bullet'},
+                    {'indent' : '-1'},
+                    {'indent' : '+1'}
+                ],
+                ['image', 'video'],
+                ['clean']
+        ]
+    };
 
-    const onChange = (e) => {
-        setText(e.key);
-    }
+    const formats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'image', 'video'
+    ]
 
-    const onSelect = (e, index) => {
-        let sel = window.getSelection();
-        let firstOffset, lastOffset;
-        if(sel.anchorOffset < sel.focusOffset) {
-            firstOffset = sel.anchorOffset;
-            lastOffset = sel.focusOffset;
-        } else {
-            firstOffset = sel.focusOffset;
-            lastOffset = sel.anchorOffset;
+    const onSubmit = (e) => {
+        e.preventDefault();
+        makeImageBlob(text)
+
+        let formData = new FormData();
+        formData.append('text', text)
+        for(let i in blobs) {
+            formData.append(`image${i}`, blobs[i])
         }
 
-        paragraph.map((p, idx) => {
-            if(idx === index) {
-                let first = p.text.substring(0, firstOffset);
-                let second = p.text.substring(firstOffset, lastOffset);
-                let third = p.text.substring(lastOffset, p.text.length);
-                return {
-                    ...p,
-                    text : [
-                        first,
-                        {
-                            tag : 'strong',
-                            text : second
-                        },
-                        third,
-                    ]
-                }
+        let config = {
+            headers : {
+                'Content-Type' : "multipart/form-data"
             }
-        });
+        }
+
+        axios.post(
+            "/write.php",
+            formData,
+            config
+        )
     }
 
-    const loadImage = (e) => {
-        for(let image of e.target.files) {
-            let imageURL = URL.createObjectURL(image);
-            setParagraph(paragraph => paragraph.concat({
-                src : imageURL,
-                type : 'image',
-            }))
-        }        
-    }
-
-    const loadVideo = (e) => {
-        for(let video of e.target.files) {
-            let videoURL = URL.createObjectURL(video);
-            setParagraph(paragraph => paragraph.concat({
-                src : videoURL,
-                type : 'video',
-            }))
+    const makeImageBlob = (text) => {
+        let regex = /".[^>]+/g;
+        let typeRegex = /\/[^;]+/;
+        let match = text.match(regex);
+        
+        let type, replacedText=text;
+        let blobArray = []
+        if(match != null) {
+            // 확장자를 추출해낸다.
+            let i=0
+            match.forEach(m => {
+                // data type
+                type = m.match(typeRegex)[0].split('/')[1];
+                //blob data
+                let data = m.split(',')[1];
+                let buffer = Buffer.from(data, 'base64');
+                let blob = new Blob([buffer], {type});
+                setBlobs(blobs.concat(blob));
+                // 순수 html 파일
+                replacedText = replacedText.replace(m, `"image${i}"`);
+                i += 1
+            });
         }
     }
 
     return (
         <Wrapper>
-            <div className="titleWrapper">
-                <input className="title" />
-            </div>
-            <div className="iconWrapper">
-                <div className="left">
-                    <span onClick={() => setBold(true)}><BiBold /></span>
-                    <span onClick={() => setItalic(true)}><BiItalic /></span>
-                </div>
-                <div>
-                    <span onClick={() => setStyle('left')}><BiAlignLeft/></span>
-                    <span onClick={() => setStyle('center')}><BiAlignMiddle/></span>
-                    <span onClick={() => setStyle('right')}><BiAlignRight/></span>
-                </div>
-                <div className="right">
-                    <span>
-                        <label for="image"><BiImageAdd/></label>rch
-                        <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png" multiple 
-                            onChange={loadImage}
-                        />
-                    </span>
-                    <span>
-                        <label for="video">
-                            <BiVideo />
-                        </label>
-                        <input type="file" id="video" name="video" accept="video/*" multiple
-                            onChange={loadVideo}/>
-                    </span>
-                </div>
-            </div>
-            <div className="contentWrapper">
-                <textarea id="content" value={text} className="content" onChange={onChange} />
-            </div>
-            <div className="buttonWrapper">
-                <button>취소</button>
-                <button>완료</button>
+            <Title value={title} onChange={(e) => setTitle(e.target.valuee)}/>
+            <ReactQuill
+                value={text}
+                modules={modules}
+                formats={formats}
+                onChange={setText}
+            />
+            <div className="buttons">
+                <button onClick={() => setText('')}>취소</button>
+                <button onClick={(e) => onSubmit(e)}>완료</button>
             </div>
         </Wrapper>
     )

@@ -11,7 +11,7 @@
 	$member = $sql->fetch_array(MYSQLI_ASSOC);
 	$hash_pwd = $member['password'];
 
-	if($password == $hash_pwd) {
+	if(password_verify($password, $hash_pwd)) {
 		unset($member[2]);
 		$result = json_encode($member);
 
@@ -29,7 +29,7 @@
 		echo $hp.".".hash_hmac('sha256', $hp, 'secret');
 
 	} else {
-		echo "<script> alert('아이디 또는 비밀번호를 확인해주세요.'); history.back(); </script>";
+		header("HTTP/1.0 401 Unauthorized");
 	}
 ?>
 
