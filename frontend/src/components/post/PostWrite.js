@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import ReactQuill from 'react-quill';
 import styled from 'styled-components';
 import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
+import {write} from '../../modules/post';
+import {useDispatch} from 'react-redux';
 
 const Wrapper = styled.div`
     .ql-container {
@@ -38,6 +39,7 @@ const Title = styled.input`
 
 
 const PostWrite = () => {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [blobs, setBlobs] = useState([]);
@@ -68,22 +70,12 @@ const PostWrite = () => {
         makeImageBlob(text)
 
         let formData = new FormData();
-        formData.append('text', text)
+        formData.append('title', title);
+        formData.append('text', text);
         for(let i in blobs) {
             formData.append(`image${i}`, blobs[i])
         }
-
-        let config = {
-            headers : {
-                'Content-Type' : "multipart/form-data"
-            }
-        }
-
-        axios.post(
-            "/write.php",
-            formData,
-            config
-        )
+        dispatch(write(formData));
     }
 
     const makeImageBlob = (text) => {

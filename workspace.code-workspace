@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../Users/galaxy/Sites"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
