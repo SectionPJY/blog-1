@@ -116,11 +116,11 @@ const PostListContainer = () => {
     ]
 
     return (
-        <div>
+        <Wrapper>
             {posts.map( (post, index) => (
                     <Post key={index} post={post} />
             ))}
-        </div>
+        </Wrapper>
     )
 }
 

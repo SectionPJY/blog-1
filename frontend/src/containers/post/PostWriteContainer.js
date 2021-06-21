@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { write, changeField } from '../../modules/post';
 import PostWrite from '../../components/post/PostWrite';
@@ -19,32 +19,35 @@ const PostWriteContainer = () => {
         let formData = new FormData();
         formData.append('title', title);
         formData.append('text', changedText);
-        formData.append('media', )
+        for(let i in blobs) {
+            console.log(`image${i}`)
+            formData.append(`image${i}`, blobs[i], `image${i}`)
+        }
+        formData.append('hashtags', JSON.stringify(hashtags));
         
         dispatch(write(formData));
     }
 
     const ChangeMediaText = (text) => {
         let blobs = [];
-        let regex = /".[^>]+/g;
+        let regex = /<img src=".[^"]+/g;
         let typeRegex = /\/[^;]+/;
         let match = text.match(regex);
         
         let type, replacedText=text;
         if(match != null) {
             // 확장자를 추출해낸다.
-            let i=0
             match.forEach(m => {
                 // data type
                 type = m.match(typeRegex)[0].split('/')[1];
                 //blob data
                 let data = m.split(',')[1];
+
                 let buffer = Buffer.from(data, 'base64');
                 let blob = new Blob([buffer], {type});
                 blobs.push(blob);
                 // 순수 html 파일
-                replacedText = replacedText.replace(m, `"media${i}"`);
-                i += 1
+                replacedText = replacedText.replace(m, "");
             });
         }
         return [blobs, replacedText]
@@ -53,11 +56,12 @@ const PostWriteContainer = () => {
     const onChange = useCallback(((key, value) => {
         if(key === 'hashtag' && value.length > 5) {
             return;
-        } 
+        }
+     
         dispatch(changeField({key, value}));
     }), [dispatch]);
 
-    const onHashtagKeyDown = (e) => {
+    const onHashtagKeyPress = (e) => {
         if(e.key === 'Enter') {
             if(hashtags.length < 5) {
                 dispatch(changeField({
@@ -83,7 +87,7 @@ const PostWriteContainer = () => {
         <div>
             <PostWrite onSubmit={onSubmit} title={title} text={text} onChange={onChange} 
                 hashtag={hashtag} hashtags={hashtags} 
-                onHashtagKeyDown={onHashtagKeyDown} onHashtagClick={onHashtagClick}
+                onHashtagKeyPress={onHashtagKeyPress} onHashtagClick={onHashtagClick}
             />
         </div>
     )

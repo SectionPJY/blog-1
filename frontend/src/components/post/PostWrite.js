@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import ReactQuill from 'react-quill';
 import styled from 'styled-components';
 import 'react-quill/dist/quill.snow.css';
-import {write} from '../../modules/post';
-import {useDispatch} from 'react-redux';
 
 const Wrapper = styled.div`
     .ql-container {
@@ -35,20 +33,23 @@ const Title = styled.input`
     margin-bottom: 1rem;
     border: 1px solid #D3D7D7;
 `
+const HashtagInputWrapper = styled.div`
+    height: 3rem;
+    line-height: 3rem;
+    input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid black;
+    }
+`
+
 const HashtagWrapper = styled.div`
     width: 100%;
-    height: 2rem;
-    line-height: 2rem;
-    overflow: hidden;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
     display : flex;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    input {
-        box-sizing: border-box;
-        border: none;
-        border-bottom: 1px solid gray;
-        outline: none;
-    }
+    flex-wrap : wrap;
+    font-family: 'KoHo', sans-serif;
 `
 
 const Hashtag = styled.span`
@@ -57,7 +58,7 @@ const Hashtag = styled.span`
 `
 
 
-const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHashtagKeyDown, onHashtagClick }) => {
+const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHashtagKeyPress, onHashtagClick }) => {
     const modules = {
         toolbar : [
                 [{'header' : [1 , 2, false]}],
@@ -89,11 +90,13 @@ const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHasht
                 onChange={(v)=>onChange('text', v)}
             />
             <div>
-                <HashtagWrapper>
-                    해쉬태그 : <input type="text" value={hashtag} 
+                <HashtagInputWrapper>
+                    hashtag : <input type="text" value={hashtag} 
                         onChange={(e) => onChange('hashtag', e.target.value)} 
-                        onKeyDown={onHashtagKeyDown}
+                        onKeyPress={onHashtagKeyPress}
                     />
+                </HashtagInputWrapper>
+                <HashtagWrapper>
                     {hashtags.map( (h, idx) => (
                         <Hashtag onClick={() => onHashtagClick(idx)}>#{h} </Hashtag>
                     ))}

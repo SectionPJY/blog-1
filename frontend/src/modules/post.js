@@ -19,7 +19,7 @@ const initialState = {
     text : '',
     hashtag : '',
     hashtags : [],
-    postError : '',
+    postError : null,
 }
 
 const post = handleActions(
@@ -27,7 +27,7 @@ const post = handleActions(
         [WRITE_SUCCESS] : (state, {payload : e}) => (
             {
                 ...state,
-                postError : e,
+                postError : null,
             }
         ),
         [WRITE_FAILURE] : (state, {payload : e}) => (
