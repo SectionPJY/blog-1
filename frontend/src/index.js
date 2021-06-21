@@ -18,18 +18,18 @@ const store = createStore(
 )
 
 sagaMiddleware.run(rootSaga);
-// function getUser() {
-//   let jwt = localStorage.getItem('jwt');
+function getUser() {
+  let jwt = localStorage.getItem('jwt');
   
-//   if(jwt) {
-//     let formData = new FormData();
-//     formData.append('jwt', jwt);
+  if(jwt) {
+    let formData = new FormData();
+    formData.append('jwt', jwt);
     
-//     store.dispatch(check(formData));
-//   }
-// }
+    store.dispatch(check(formData));
+  }
+}
 
-// getUser();
+getUser();
 
 ReactDOM.render(
   <React.StrictMode>

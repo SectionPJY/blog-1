@@ -35,14 +35,29 @@ const Title = styled.input`
     margin-bottom: 1rem;
     border: 1px solid #D3D7D7;
 `
+const HashtagWrapper = styled.div`
+    width: 100%;
+    height: 2rem;
+    line-height: 2rem;
+    overflow: hidden;
+    display : flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    input {
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 1px solid gray;
+        outline: none;
+    }
+`
+
+const Hashtag = styled.span`
+    cursor: pointer;
+    padding: 0 1rem;
+`
 
 
-
-const PostWrite = () => {
-    const dispatch = useDispatch();
-    const [title, setTitle] = useState('');
-    const [text, setText] = useState('');
-    const [blobs, setBlobs] = useState([]);
+const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHashtagKeyDown, onHashtagClick }) => {
     const modules = {
         toolbar : [
                 [{'header' : [1 , 2, false]}],
@@ -64,56 +79,28 @@ const PostWrite = () => {
         'list', 'bullet', 'indent',
         'image', 'video'
     ]
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        makeImageBlob(text)
-
-        let formData = new FormData();
-        formData.append('title', title);
-        formData.append('text', text);
-        for(let i in blobs) {
-            formData.append(`image${i}`, blobs[i])
-        }
-        dispatch(write(formData));
-    }
-
-    const makeImageBlob = (text) => {
-        let regex = /".[^>]+/g;
-        let typeRegex = /\/[^;]+/;
-        let match = text.match(regex);
-        
-        let type, replacedText=text;
-        let blobArray = []
-        if(match != null) {
-            // 확장자를 추출해낸다.
-            let i=0
-            match.forEach(m => {
-                // data type
-                type = m.match(typeRegex)[0].split('/')[1];
-                //blob data
-                let data = m.split(',')[1];
-                let buffer = Buffer.from(data, 'base64');
-                let blob = new Blob([buffer], {type});
-                setBlobs(blobs.concat(blob));
-                // 순수 html 파일
-                replacedText = replacedText.replace(m, `"image${i}"`);
-                i += 1
-            });
-        }
-    }
-
     return (
         <Wrapper>
-            <Title value={title} onChange={(e) => setTitle(e.target.valuee)}/>
+            <Title value={title} onChange={(e) => onChange('title', e.target.value)}/>
             <ReactQuill
                 value={text}
                 modules={modules}
                 formats={formats}
-                onChange={setText}
+                onChange={(v)=>onChange('text', v)}
             />
+            <div>
+                <HashtagWrapper>
+                    해쉬태그 : <input type="text" value={hashtag} 
+                        onChange={(e) => onChange('hashtag', e.target.value)} 
+                        onKeyDown={onHashtagKeyDown}
+                    />
+                    {hashtags.map( (h, idx) => (
+                        <Hashtag onClick={() => onHashtagClick(idx)}>#{h} </Hashtag>
+                    ))}
+                </HashtagWrapper>
+            </div>
             <div className="buttons">
-                <button onClick={() => setText('')}>취소</button>
+                <button onClick={() => onChange(text, '')}>취소</button>
                 <button onClick={(e) => onSubmit(e)}>완료</button>
             </div>
         </Wrapper>

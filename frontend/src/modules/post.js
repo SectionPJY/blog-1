@@ -4,15 +4,21 @@ import * as postAPI from '../lib/api/post';
 import createRequestSaga, {createRequestActionTypes} from '../lib/createRequestSaga';
 
 const [WRITE, WRITE_SUCCESS, WRITE_FAILURE] = createRequestActionTypes('post/WRITE');
+const CHANGE_FIELD = 'post/CHANGE_FIELD';
 
 export const write = createAction(WRITE, formData => formData);
+export const changeField = createAction(CHANGE_FIELD, ({key, value}) => ({key, value}))
 
 const writeSaga = createRequestSaga(WRITE, postAPI.write);
 export function* postSaga() {
-    takeLatest(WRITE, writeSaga);
+    yield takeLatest(WRITE, writeSaga);
 }
 
 const initialState = {
+    title : '',
+    text : '',
+    hashtag : '',
+    hashtags : [],
     postError : '',
 }
 
@@ -29,7 +35,11 @@ const post = handleActions(
                 ...state,
                 postError : e
             }
-        )
+        ),
+        [CHANGE_FIELD] : (state, {payload : {key, value}}) => ({
+            ...state,
+            [key] : value,
+        })
     },
     initialState
 )
