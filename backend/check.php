@@ -1,23 +1,23 @@
 <?php
-    require_once 'third_party/vendor/autoload.php';
-    use Firebase\JWT\JWT;
-    include "./jwt.php";
-    include "./StdClassToArray.php";
+    include("./jwt.php");
 
     if(!isset($_POST['jwt'])) {
         header("HTTP/1.0 401 Unauthorized");
     }
 
-    $jwt = $_POST['jwt'];
-    $key = JWT_SECRET;
+    $jwt = substr($_POST['jwt'], 0, strlen($_POST['jwt'])-2);
+    $key = $jwt_secret;
     try {
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
-        $decoded_array = objectToArray($decoded);
-        
-        if($decoded_array['exp'] > time()) {
-            $jwt  = makeJWT($decoded_array['data']);
+        $seperatedArray = explode('.', $jwt);
+        $header = $seperatedArray[0];
+        $parameter = $seperatedArray[1];
+        $signature = $seperatedArray[2];
+
+        if(hash_hmac('sha256', $header.".".$parameter, $jwt_secret) === $signature) {
+            echo $jwt;
+        } else {    
+            header("HTTP/1.0 401 Unauthorized");
         }
-        echo $jwt;
     } catch (\Exception $e) {
         header("HTTP/1.0 401 Unauthorized");
     }

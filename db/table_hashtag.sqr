@@ -3,23 +3,3 @@ create table hashtag(
     postId int NOT NULL,
     FOREIGN KEY(postId) REFERENCES POST(ID)
 );
-
-insert into hashtag values("a", 1);
-insert into hashtag values("a", 2);
-insert into hashtag values("a", 3);
-insert into hashtag values("a", 4);
-
-insert into hashtag values("b", 1);
-insert into hashtag values("b", 2);
-insert into hashtag values("b", 3);
-insert into hashtag values("b", 4);
-
-insert into hashtag values("c", 1);
-insert into hashtag values("c", 2);
-insert into hashtag values("c", 3);
-insert into hashtag values("c", 4);
-
-insert into hashtag values("d", 1);
-insert into hashtag values("d", 2);
-insert into hashtag values("d", 3);
-insert into hashtag values("d", 4);
