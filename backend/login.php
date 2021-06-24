@@ -10,19 +10,23 @@
 	$hash_pwd = $member['password'];
 
 	if(password_verify($password, $hash_pwd)) {
-		unset($member[2]);
-		$result = json_encode($member);
-
 		$header = json_encode(array(
 			"alg" => "HS256",
 			"typ" => "JWT"
 			)
 		);
 
-		$header = base64_encode($header);
-		$result = base64_encode($result);
+		unset($member['password']);
+		$parameter = json_encode(array(
+			"iat" => time(),
+			"exp" => time() + 3600,
+			"data" => $member
+		));
 
-		$hp = $header.".".$result;
+		$header = base64_encode($header);
+		$parameter = base64_encode($parameter);
+
+		$hp = $header.".".$parameter;
 		$jwt = $hp.".".hash_hmac('sha256', $hp, $jwt_secret);
 		
 		echo $jwt;

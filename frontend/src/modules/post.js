@@ -24,7 +24,7 @@ const initialState = {
 
 const post = handleActions(
     {
-        [WRITE_SUCCESS] : (state, {payload : e}) => (
+        [WRITE_SUCCESS] : (state, paylaod) => (
             {
                 ...state,
                 postError : null,
