@@ -66,7 +66,7 @@ const RegisterContainer = ({history}) => {
                 }
                 dispatch(initializeForm('register'));
             } 
-            if (auth !== null) {
+            if (auth !== ' ') {
                 localStorage.setItem('jwt', auth);
                 setError('');
                 history.push('/');

@@ -4,6 +4,6 @@ create table user(
 	password varchar(129) NOT NULL,
 	gender varchar(20) NOT NULL,
 	phonenumber varchar(20) NOT NULL,
-	birth date,
+	birth date NOT NULL,
 );
 

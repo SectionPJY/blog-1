@@ -3,7 +3,15 @@
 
     if(!isset($_POST['jwt'])) {
         header("HTTP/1.0 401 Unauthorized");
+        echo 'no jwt';
+        return;
     }
+
+    $id='';
+    $name='';
+    $gender='';
+    $phonenumber='';
+    $birth='';
 
     $jwt = substr($_POST['jwt'], 0, strlen($_POST['jwt'])-2);
     $key = $jwt_secret;
@@ -13,12 +21,22 @@
         $parameter = $seperatedArray[1];
         $signature = $seperatedArray[2];
 
-        if(hash_hmac('sha256', $header.".".$parameter, $jwt_secret) === $signature) {
-            echo $jwt;
-        } else {    
+        // jwt에서 회원정보 추출
+        $info = (array)json_decode(base64_decode($parameter));
+        $id = $info['id'];
+        $name = $info['name'];
+        $gender = $info['gender'];
+        $phonenumber = $info['phonenumber'];
+        $birth = $info['birth'];
+
+        if(!hash_hmac('sha256', $header.".".$parameter, $jwt_secret) === $signature) {
             header("HTTP/1.0 401 Unauthorized");
+            echo 'wrong jwt';
+            return;
         }
     } catch (\Exception $e) {
         header("HTTP/1.0 401 Unauthorized");
+        echo 'unknown error';
+        return;
     }
 ?>

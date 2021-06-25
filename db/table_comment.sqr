@@ -6,3 +6,5 @@ create table comment (
 	FOREIGN KEY(postId) REFERENCES POST(id),
 	FOREIGN KEY(author) REFERENCES USER(id)
 );
+
+insert into comment(postId, author, content) values(1, 'rjs595959', '123');

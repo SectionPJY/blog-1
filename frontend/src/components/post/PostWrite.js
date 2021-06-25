@@ -58,7 +58,7 @@ const Hashtag = styled.span`
 `
 
 
-const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHashtagKeyPress, onHashtagClick }) => {
+const PostWrite = ({ onSubmit, title, content, hashtag, hashtags, onChange, onHashtagKeyPress, onHashtagClick }) => {
     const modules = {
         toolbar : [
                 [{'header' : [1 , 2, false]}],
@@ -84,10 +84,10 @@ const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHasht
         <Wrapper>
             <Title value={title} onChange={(e) => onChange('title', e.target.value)}/>
             <ReactQuill
-                value={text}
+                value={content}
                 modules={modules}
                 formats={formats}
-                onChange={(v)=>onChange('text', v)}
+                onChange={(v)=>onChange('content', v)}
             />
             <div>
                 <HashtagInputWrapper>
@@ -98,12 +98,12 @@ const PostWrite = ({ onSubmit, title, text, hashtag, hashtags, onChange, onHasht
                 </HashtagInputWrapper>
                 <HashtagWrapper>
                     {hashtags.map( (h, idx) => (
-                        <Hashtag onClick={() => onHashtagClick(idx)}>#{h} </Hashtag>
+                        <Hashtag key={idx} onClick={() => onHashtagClick(idx)}>#{h} </Hashtag>
                     ))}
                 </HashtagWrapper>
             </div>
             <div className="buttons">
-                <button onClick={() => onChange(text, '')}>취소</button>
+                <button onClick={() => onChange(content, '')}>취소</button>
                 <button onClick={(e) => onSubmit(e)}>완료</button>
             </div>
         </Wrapper>

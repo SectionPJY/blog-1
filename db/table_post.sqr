@@ -4,4 +4,5 @@ CREATE TABLE POST(
     text TEXT NOT NULL,
     create_time DATETIME DEFAULT now(),
     author varchar(255) NOT NULL,
+    FOREIGN KEY(author) REFERENCES USER(id)
 );
