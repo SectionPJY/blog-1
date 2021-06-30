@@ -1,4 +1,6 @@
 <?php
+	include "./db.php";
+
 	if($_POST['title'] = "" || $_POST['content'] = "") {
 		echo '<script> location.href="/reg_bk"; </script>';
 	} else {
@@ -17,6 +19,7 @@
 						"typ" => "JWT"
 					)
 				);
+		
 		$result = json_encode($member);
 
 		$header = base64_encode($header);
