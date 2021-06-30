@@ -34,7 +34,6 @@ const HeaderContainer = () => {
             setUsername('');
         } else {
             let jwt = JSON.parse(decodeJWT(auth));
-            console.log(jwt);
             setId(jwt['id']);
             setUsername(jwt['name'])
         }

@@ -1,0 +1,10 @@
+create table comment (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	postId INT NOT NULL,
+	author varchar(256) NOT NULL,
+	content varchar(256) NOT NULL,
+	FOREIGN KEY(postId) REFERENCES POST(id),
+	FOREIGN KEY(author) REFERENCES USER(id)
+);
+
+insert into comment(postId, author, content) values(1, 'rjs595959', '123');

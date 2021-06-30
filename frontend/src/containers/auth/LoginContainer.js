@@ -50,10 +50,11 @@ const LoginContainer = ({history}) => {
     useEffect(() => {
         // 처음상태일때 로그인 알람을 무시한다.
         if(isClicked === true) {
-            if(auth === null) {
+            if(authError) {
                 setError('로그인을 실패하였습니다.');
                 dispatch(initializeForm('login'));
-            } else {
+            } 
+            if(auth) {
                 localStorage.setItem('jwt', auth);
                 setError('');
                 history.push('/');

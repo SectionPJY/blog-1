@@ -1,5 +1,6 @@
 <?php
 	include "./db.php";
+	include("./jwt.php");
 
 	if($_POST['id'] == "" || $_POST['password'] == "" || $_POST['passwordCheck'] == "" || $_POST['name'] == "" || $_POST['tel'] == "" || $_POST['gender'] == "" || $_POST['birth'] == "") {	// 입력사항을 입력하지 않으면 
 		header('HTTP/1.0 401 Unauthorized');
@@ -26,7 +27,6 @@
 
 				$result = mysqli_query($conn, $query) or die ("알 수 없는 오류");
 
-
 				$member = array('id' => $id, 'name' => $name, 'gender' => $gender, 'phonenumber' => $number, 'birth' => $birth);
 
 				$header = json_encode(array(
@@ -40,8 +40,9 @@
 				$result = base64_encode($result);
 
 				$hp = $header.".".$result;
+				$jwt = $hp.".".hash_hmac('sha256', $hp, $jwt_secret);
 
-				echo $hp.".".hash_hmac('sha256', $hp, 'secret');
+				echo $jwt;
 
 				header('HTTP/1.0 202 Accept');
 			}

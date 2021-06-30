@@ -65,7 +65,7 @@ const initialState = {
         birth : '',
     },
     auth : null,
-    authError: true,
+    authError: null,
 };
 
 const auth = handleActions(
@@ -101,9 +101,9 @@ const auth = handleActions(
             ...state,
             auth: null,
         }),
-        [CHECK_SUCCESS] : (state, {payload : auth}) => ({
+        [CHECK_SUCCESS] : (state, payload) => ({
             ...state,
-            auth,
+            auth : localStorage.getItem('jwt'),
         }),
         [CHECK_FAILURE] : (state, {payload : error}) => ({
             ...state,
