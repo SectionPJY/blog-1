@@ -1,0 +1,10 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\..\\..\\..\\..\\httpd-2.4.48-win64-VS16\\Apache24\\htdocs"
+        }
+    ]
+}

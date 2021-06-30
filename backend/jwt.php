@@ -1,0 +1,8 @@
+<?php
+    $jwt_secret = "ytupcjUYAdD4p8bV/4SrgGGU1YZWWcbH131I89il6qWDyz+hwjYIcFsh86pNMQaS
+	PcaYA+/P8yx5j7bCIiI71La9uTvI1SSR3K1SlhRayTknJwCDT9f+jlS21c5POe4/
+	p1FpTA9CheJYILZ7p3w72/qxoFvIhnvb/nvWHIRn7rvxk1S/K2nXguBZbVRFB7nR
+	Dc3oUKw9s+ZDzJZVellMqoUuNf6hKxVTRldjN8IXidvNylxoqOLLVSHzigHcBj5g
+	XkxiYAcQL9CuLbFK3b+PRxu+7R1a5JKLbCNgfqYQk2RFdkEz3bJDCP9PUyZXvPaL
+	pR/VIOd9w1ypCdmJw4L6Ww==";
+?>

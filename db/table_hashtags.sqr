@@ -1,0 +1,7 @@
+create table hashtags(
+    hashtag varchar(255) NOT NULL,
+    postId int NOT NULL,
+    FOREIGN KEY(postId) REFERENCES POST(ID)
+);
+
+insert into hashtag values('a', 1);

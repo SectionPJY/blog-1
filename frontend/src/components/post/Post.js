@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
@@ -47,13 +47,11 @@ const Post = ({post}) => {
                          {post.title}
                     </div>
                     <div className='right'>
-                        글쓴이 : {post.name} <br /> 
-                        글쓴 시간 : {post.createTime}
+                        글쓴이 : {post.author} <br /> 
+                        글쓴 시간 : {post.create_time}
                     </div>
                 </Header>
-                <Content>
-                    {post.content}
-                </Content>
+                <Content dangerouslySetInnerHTML={{__html : post.content}} />
             </Link>    
         </Wrapper>
     )

@@ -23,8 +23,7 @@ function getUser() {
   
   if(jwt) {
     let formData = new FormData();
-    formData.append('jwt', jwt);
-    
+    formData.append('jwt', jwt);    
     store.dispatch(check(formData));
   }
 }
